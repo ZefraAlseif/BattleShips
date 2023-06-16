@@ -42,7 +42,7 @@ public class Game{
                 size = sc.nextInt()-1;
                 // Random Generator in case wrong input
                 if (size < 2 || size > 5){
-                    size = random.nextInt(2,5);
+                    size = random.nextInt(2,5); // Add Math.random instead
                 }
                 // Introduce the ability to scan the direction (vertical or horizontal)
                 System.out.println("Input the direction of the boat (v or h): ");
@@ -61,7 +61,7 @@ public class Game{
                 // TODO: handle exception
                 row = random.nextInt(9);
                 col = random.nextInt(9);
-                size = random.nextInt(2,5);
+                size = random.nextInt(2,5); // Math.random instead
                 direction = random.nextBoolean();
             }
             int temp = game_start.checkSetShips(row,col,size,String.valueOf(ship_num),players,direction); 
