@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Logic {
     private String [][] p1_field;
@@ -20,20 +22,12 @@ public class Logic {
             for (int col =0; col < 10; col++){
                 p1_field[row][col] = "---";
                 p2_field[row][col] = "---";
-
             }  
         }
         
         player_map = new HashMap<Integer, String [][]>();
         player_map.put(1, p1_field);
         player_map.put(2, p2_field);
-        // Printing out the Player field (Used for debugging)
-        for (String[] strings : p1_field) {
-            for (String string : strings) {
-                System.out.print(string);
-            }
-            System.out.println("");    
-        }
     }
     
     // Verifies that the user input can satisfy the conditions
@@ -76,12 +70,50 @@ public class Logic {
                 size--;
             }
         }
-        // Printing out the Player field (Used for debugging)
+    }
+    // Printing out the Player field (Used for debugging)
+    public void printField(int player_num){
         for (String[] strings : player_map.get(player_num)) {
             for (String string : strings) {
                 System.out.print(string);
             }
             System.out.println("");    
         }
+    }
+    // Via the player move determine if Hit, Miss, or repeated spot
+    public String makeMove(int row, int col, int player_num){
+        if (player_map.get(player_num) [row][col] != "---"){
+            player_map.get(player_num) [row][col] = "Hit";
+            return "Hit";
+        }
+        else if(player_map.get(player_num) [row][col] == "Hit"){
+            return "";
+        }
+        else{
+            return "Miss";
+        }     
+    }
+}
+
+// Keep track of the moves 
+class History{
+    private HashMap<Integer,List<String>> move_log; 
+    // Constructor to develop the move log
+    History(int max_players){
+        move_log = new HashMap<Integer,List<String>>();
+        for (int i = 1; i<=max_players;i++){
+            List<String> temp = new LinkedList<String>();
+            move_log.put(i, temp);
+        }
+    }
+    // Input a move into the corresponding move log
+    public void inputMove(String move, int player_num){
+        List<String> temp = move_log.get(player_num);
+        temp.add(move);
+        move_log.put(player_num, temp);
+    }
+    // Return the move log of the player
+    public List<String> getMove_log(int player_num) {
+        return move_log.get(player_num);
     }
 }
