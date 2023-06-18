@@ -30,34 +30,37 @@ public class Game{
         // Make a move by imputting
         players = 1; // Keep using variable to save memory (turn)
         // Playing the game
+        sc.nextLine();
         while(running){
             int row = 0;
             int col = 0;
-            System.out.println("Player to attack (Type the number only): ");
+            System.out.println(player_arr[players-1]+" to attack (Type the number only): ");
             displayPlayers(player_arr, players-1);
+            System.out.println("");
             String attack = sc.nextLine();
             System.out.println(player_arr[players-1]+" make a move: \nHint* (A-J) for Col & (1-9) for Row (ex. B6)");
             try {
                 String input = sc.nextLine();
                 if (input.length() != 2){
-                    row = col_dict.get(input.substring(0,1));
-                    col = Integer.valueOf(input.charAt(1));
+                    row = Integer.valueOf(input.charAt(1)); 
+                    col = col_dict.get(input.substring(0,1));
                 }
             } catch (Exception e) {
                 // TODO: handle exception
                 row = random.nextInt(9);
                 col = random.nextInt(9);
             }
-            finally{
-                game_start.makeMove(row, col, players);
-            }
+            System.out.println(game_start.makeMove(row-1, col, Integer.valueOf(attack)));
+            // Print for debuggin purposes
+            System.out.println("This is the attackers field: "+player_arr[Integer.valueOf(attack)-1]);
+            game_start.printField(Integer.valueOf(attack));
             players = nextTurn(players, player_arr.length);
         } 
     }
 
     // Takes care of setting up the field
     public static void fieldSetup(int count, int ship_num, Logic game_start,int players){
-        while(count < 5){
+        while(count < 2){
             int row =0;
             int col = 0;
             int size = 0;
@@ -117,13 +120,13 @@ public class Game{
             return 1;
         }
         else {
-            return current_player++;
+            return current_player+=1;
         }
     }
 
     public static void displayPlayers(String [] player_arr, int current_player){
         for (String str : player_arr){
-            if (player_arr[current_player] != str){
+            if (!player_arr[current_player].equals(str)){
                 System.out.print(str+" ");
             }
         }
@@ -135,6 +138,7 @@ public class Game{
             for (int i=0;i<player_arr.length;i++){
                 if (i+1 != current_player){
                     attack_player = i+1;
+                    break;
                 }
             }
         }

@@ -82,15 +82,15 @@ public class Logic {
     }
     // Via the player move determine if Hit, Miss, or repeated spot
     public String makeMove(int row, int col, int player_num){
-        if (player_map.get(player_num) [row][col] != "---"){
-            player_map.get(player_num) [row][col] = "Hit";
-            return "Hit";
+        if (player_map.get(player_num) [row][col] == "---"){
+            return "Miss";
         }
         else if(player_map.get(player_num) [row][col] == "Hit"){
-            return "";
+            return "Already Hit";
         }
         else{
-            return "Miss";
+            player_map.get(player_num) [row][col] = "Hit";
+            return "Hit";
         }     
     }
 }
