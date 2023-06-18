@@ -105,7 +105,9 @@ public class Game{
                 // TODO: handle exception
                 row = random.nextInt(9);
                 col = random.nextInt(9);
+              
                 size = (int)Math.floor(Math.random() * (5 - 2 + 1) + 2);
+
                 direction = random.nextBoolean();
             }
             int temp = game_start.checkSetShips(row,col,size,String.valueOf(ship_num),players,direction); 
