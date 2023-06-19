@@ -41,15 +41,21 @@ public class Game{
             System.out.println(player_arr[players-1]+" make a move: \nHint* (A-J) for Col & (1-9) for Row (ex. B6)");
             try {
                 String input = sc.nextLine();
-                if (input.length() != 2){
-                    row = Integer.valueOf(input.charAt(1)); 
+                System.out.println("(2) Row: "+input.charAt(input.length()-1)+"\nCol: "+input.substring(0,1));
+                if (input.length() == 2) {
+                    row = Integer.valueOf(input.substring(1)); 
                     col = col_dict.get(input.substring(0,1));
+                }
+                // Create an error in order to catch the exception
+                else {
+
                 }
             } catch (Exception e) {
                 // TODO: handle exception
                 row = random.nextInt(9);
                 col = random.nextInt(9);
             }
+            System.out.println("(2) Row: "+(row-1)+"\nCol: "+(col));
             System.out.println(game_start.makeMove(row-1, col, Integer.valueOf(attack)));
             // Print for debuggin purposes
             System.out.println("This is the attackers field: "+player_arr[Integer.valueOf(attack)-1]);
@@ -110,7 +116,7 @@ public class Game{
 
                 direction = random.nextBoolean();
             }
-            int temp = game_start.checkSetShips(row,col,size,String.valueOf(ship_num),players,direction); 
+            int temp = game_start.checkSetShips(row,col,size-1,String.valueOf(ship_num),players,direction); 
             count += temp;
             ship_num += temp;
         }
@@ -147,7 +153,6 @@ public class Game{
         else {
             return attack_player;
         }
-
         return attack_player;
     }
 }
