@@ -93,6 +93,20 @@ public class Logic {
             return "Hit";
         }     
     }
+
+    // Check if the game has been won
+    public boolean checkWinner(int player_attacked){
+        for (String[] strings : player_map.get(player_attacked)) {
+            for (String string : strings) {
+                // Run until I hit a value thats not Hit or ---
+                if (!(string.equals("Hit") || string.equals("---"))){
+                    System.out.println("Works");
+                    return false;
+                }
+            }  
+        }
+        return true;
+    }
 }
 
 // Keep track of the moves 
