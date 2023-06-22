@@ -37,36 +37,51 @@ public class Game{
             System.out.println(player_arr[players-1]+" to attack (Type the number only): ");
             displayPlayers(player_arr, players-1);
             System.out.println("");
-            String attack = sc.nextLine();
-            System.out.println(player_arr[players-1]+" make a move: \nHint* (A-J) for Col & (1-9) for Row (ex. B6)");
+            // Scan the player that is being attacked
+            int attack = 0;
             try {
+                attack = sc.nextInt();
+              // In case user puts wrong input  
+            } catch (Exception e) {
+                // TODO: handle exception
+                attack = random.nextInt(player_arr.length-1);
+            }
+            // checks if player being attacked is different than player attacking
+            attack = checkAttack(players, attack, player_arr); 
+            System.out.println(player_arr[players-1]+" make a move against "+ player_arr[attack-1]+": \nHint* (A-J) for Col & (1-9) for Row (ex. B6)");
+            sc.nextLine();
+            try {
+                // Scan the coordinate to be attacked
                 String input = sc.nextLine();
                 System.out.println("(2) Row: "+input.charAt(input.length()-1)+"\nCol: "+input.substring(0,1));
+                // Split the input into the row and col in order to perform the attack
                 if (input.length() == 2) {
                     row = Integer.valueOf(input.substring(1)); 
                     col = col_dict.get(input.substring(0,1));
                 }
-                // Create an error in order to catch the exception
-                else {
-
-                }
+                // If an error occurs pick a random square to be attacked
             } catch (Exception e) {
                 // TODO: handle exception
                 row = random.nextInt(9);
                 col = random.nextInt(9);
             }
             System.out.println("(2) Row: "+(row-1)+"\nCol: "+(col));
-            System.out.println(game_start.makeMove(row-1, col, Integer.valueOf(attack)));
+            System.out.println(game_start.makeMove(row-1, col, attack));
             // Print for debuggin purposes
-            System.out.println("This is the attackers field: "+player_arr[Integer.valueOf(attack)-1]);
+            System.out.println("This is the attackers field: "+player_arr[attack-1]);
             game_start.printField(Integer.valueOf(attack));
+            boolean check = game_start.checkWinner(attack);
+            if (check){
+                System.out.println("Winner is: "+player_arr[players-1]);
+                running = false;
+            }
             players = nextTurn(players, player_arr.length);
         } 
     }
 
     // Takes care of setting up the field
     public static void fieldSetup(int count, int ship_num, Logic game_start,int players){
-        while(count < 2){
+        while(count < 1){
             int row =0;
             int col = 0;
             int size = 0;
@@ -131,7 +146,8 @@ public class Game{
             return current_player+=1;
         }
     }
-
+    
+    // Display the players currently playing
     public static void displayPlayers(String [] player_arr, int current_player){
         for (String str : player_arr){
             if (!player_arr[current_player].equals(str)){
@@ -140,6 +156,7 @@ public class Game{
         }
     }
 
+    // Check if the player being attacked is valid
     public static int checkAttack(int current_player, int attack_player, String [] player_arr){
         if (attack_player == current_player || attack_player > player_arr.length || attack_player <= 0){
             // In case the player failed the condition
@@ -155,4 +172,6 @@ public class Game{
         }
         return attack_player;
     }
+
+    
 }
